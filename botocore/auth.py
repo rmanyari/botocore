@@ -854,6 +854,10 @@ class HmacV1PostAuth(HmacV1Auth):
         request.context['s3-presign-post-policy'] = policy
 
 class GCPAuth(BaseSigner):
+
+    def __init__(self, credentials):
+        self.credentials = credentials
+
     def add_auth(self, request):
         if not self.credentials:
             raise NoCrendentialsError
