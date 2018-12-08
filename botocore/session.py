@@ -137,7 +137,7 @@ class Session(object):
     def _register_credential_provider(self):
         self._components.lazy_register_component(
             'credential_provider',
-            lambda: botocore.credentials.create_credential_resolver(self))
+            lambda:  botocore.credentials.create_credential_resolver(self))
 
     def _register_data_loader(self):
         self._components.lazy_register_component(

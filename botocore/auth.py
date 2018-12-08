@@ -853,7 +853,7 @@ class HmacV1PostAuth(HmacV1Auth):
         request.context['s3-presign-post-fields'] = fields
         request.context['s3-presign-post-policy'] = policy
 
-class GCPAuth(BaseSigner):
+class GCSAuth(BaseSigner):
 
     def __init__(self, credentials):
         self.credentials = credentials
@@ -861,9 +861,6 @@ class GCPAuth(BaseSigner):
     def add_auth(self, request):
         if not self.credentials:
             raise NoCrendentialsError
-
-        if not self.credentials.token:
-            raise MismatchCredentialProviderError(cred_var='token')
 
         request.headers['Authorization'] = (
             "Bearer %s" % self.credentials.token)
@@ -883,5 +880,5 @@ AUTH_TYPE_MAPS = {
     's3v4': S3SigV4Auth,
     's3v4-query': S3SigV4QueryAuth,
     's3v4-presign-post': S3SigV4PostAuth,
-    'gcs': GCPAuth
+    'gcs': GCSAuth
 }

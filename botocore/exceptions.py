@@ -126,9 +126,6 @@ class NoCredentialsError(BotoCoreError):
     fmt = 'Unable to locate credentials'
 
 
-class MismatchCredentialProviderError(BotoCoreError):
-    fmt = 'Invalid credential provider error, missing variable: {cred_var}'
-
 class PartialCredentialsError(BotoCoreError):
     """
     Only partial credentials were found.
