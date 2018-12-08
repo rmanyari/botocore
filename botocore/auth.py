@@ -853,6 +853,17 @@ class HmacV1PostAuth(HmacV1Auth):
         request.context['s3-presign-post-fields'] = fields
         request.context['s3-presign-post-policy'] = policy
 
+class GCPAuth(object):
+    def add_auth(self, request):
+        if not self.credentials:
+            raise NoCrendentialsError
+
+        if not self.credentials.bearer_token:
+            raise MismatchCredentialProviderError(cred_var='bearer_token')
+
+        request.headers['Authorization'] = (
+            "Bearer %s" % self.credentials.bearer_token)
+
 
 # Defined at the bottom instead of the top of the module because the Auth
 # classes weren't defined yet.
@@ -868,5 +879,5 @@ AUTH_TYPE_MAPS = {
     's3v4': S3SigV4Auth,
     's3v4-query': S3SigV4QueryAuth,
     's3v4-presign-post': S3SigV4PostAuth,
-
+    'gcp': GCPAuth
 }
