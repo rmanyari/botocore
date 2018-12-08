@@ -67,8 +67,7 @@ class Session(object):
     LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
     def __init__(self, session_vars=None, event_hooks=None,
-                 include_builtin_handlers=True, profile=None,
-                 credential_provider=None):
+                 include_builtin_handlers=True, profile=None):
         """
         Create a new Session object.
 
@@ -110,7 +109,6 @@ class Session(object):
         self._config = None
         self._credentials = None
         self._profile_map = None
-        self._custom_credential_provider = credential_provider
         # This is a dict that stores per session specific config variable
         # overrides via set_config_variable().
         self._session_instance_vars = {}
@@ -139,9 +137,7 @@ class Session(object):
     def _register_credential_provider(self):
         self._components.lazy_register_component(
             'credential_provider',
-            lambda:  self._custom_credential_provider \
-                    if self._custom_credential_provider is not None \
-                    else botocore.credentials.create_credential_resolver(self))
+            lambda: botocore.credentials.create_credential_resolver(self))
 
     def _register_data_loader(self):
         self._components.lazy_register_component(
